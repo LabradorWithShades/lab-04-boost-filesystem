@@ -11,3 +11,4 @@ TEST(General, Launch) {
   DirectoryAnalyzer analyzer("../misc/ftp");
   std::cout << analyzer;
 }
+

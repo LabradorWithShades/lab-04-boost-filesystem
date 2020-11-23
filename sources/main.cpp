@@ -5,9 +5,9 @@
 
 int main(int argc, char** argv) {
   std::string pathToLookupDirectory = "";
-  if (argc == 1)
+  if (argc == 1) {
     pathToLookupDirectory = ".";
-  else if (argc == 2) {
+  } else if (argc == 2) {
     pathToLookupDirectory = argv[1];
   } else {
     std::cout << "Error! Incorrect argument count" << std::endl;
@@ -23,3 +23,4 @@ int main(int argc, char** argv) {
   std::cout << analyzer;
   return 0;
 }
+
