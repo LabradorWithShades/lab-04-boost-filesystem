@@ -103,9 +103,17 @@ void DirectoryAnalyzer::analyze(std::ostream& out) const {
   BrokerData data;
   data.rootDirectory = m_path.string();
   out << "Found files:" << std::endl;
-  for (const auto& x : m_dirIterator)
+  for (const auto& x : m_dirIterator) {
+    if ((x.status().type() != file_type::directory_file) ||
+        ((x.status().type() == file_type::symlink_file) &&
+         (x.symlink_status().type() != file_type::directory_file)))
+      continue;
     analyzeSubDirectory(out, x.path(), data);
-
+  }
+  if (data.directoriesData.empty()) {
+    out << "No matching files found" << std::endl;
+    return;
+  }
   out << std::endl << "Statistics:" << std::endl;
   for (auto x : data.directoriesData) {
     for (auto y : x.second.accountsData) {
