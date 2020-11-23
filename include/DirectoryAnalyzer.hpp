@@ -16,7 +16,7 @@ class DirectoryAnalyzer {
   explicit DirectoryAnalyzer(const std::string& path);
 
   void analyze(std::ostream& out) const;
-  
+
  private:
   struct AccountData {
     uint32_t accountID;
@@ -34,7 +34,7 @@ class DirectoryAnalyzer {
   void analyzeSubDirectory(std::ostream& out,
                            const path& dirPath,
                            BrokerData& data) const;
-                           
+
  private:
   directory_iterator m_dirIterator;
   path m_path;
