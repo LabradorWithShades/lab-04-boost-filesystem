@@ -4,11 +4,10 @@
 #include "DirectoryAnalyzer.hpp"
 
 TEST(General, EmptyTest) {
-    EXPECT_TRUE(true);
+  EXPECT_TRUE(true);
 }
 
 TEST(General, Launch) {
   DirectoryAnalyzer analyzer("../misc/ftp");
   std::cout << analyzer;
 }
-

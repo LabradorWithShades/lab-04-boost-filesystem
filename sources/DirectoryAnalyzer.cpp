@@ -27,7 +27,8 @@ std::string getRelativePath(const path& dirPath, const path& startPath) {
 }
 
 bool checkFilename(const std::string& filename) {
-  if (filename.length() != 29)
+  const unsigned int filenameLength = 29;
+  if (filename.length() != filenameLength)
     return false;
   if (filename.find("balance") != 0)
     return false;
@@ -45,8 +46,9 @@ void separateData(const std::string& name,
 
 uint32_t getNumber(const std::string& str) {
   uint32_t number = 0;
+  const size_t base = 10;
   for (size_t i = 0; i < str.size(); ++i) {
-    number *= 10;
+    number *= base;
     number += static_cast<uint32_t>(str[i] - '0');
   }
   return number;
@@ -102,7 +104,7 @@ void DirectoryAnalyzer::analyzeSubDirectory(std::ostream& out,
 void DirectoryAnalyzer::analyze(std::ostream& out) const {
   BrokerData data;
   data.rootDirectory = m_path.string();
-  out << "Found files:" << std::endl;
+  out << "Found files in \"" << data.rootDirectory << "\" folder:" << std::endl;
   for (const auto& x : m_dirIterator) {
     if ((x.status().type() != file_type::directory_file) ||
         ((x.status().type() == file_type::symlink_file) &&
@@ -114,9 +116,10 @@ void DirectoryAnalyzer::analyze(std::ostream& out) const {
     out << "No matching files found" << std::endl;
     return;
   }
-  out << std::endl << "Statistics:" << std::endl;
-  for (auto x : data.directoriesData) {
-    for (auto y : x.second.accountsData) {
+  out << std::endl << "Statistics of \"" << data.rootDirectory <<
+         "\" folder:" << std::endl;
+  for (const auto& x : data.directoriesData) {
+    for (const auto& y : x.second.accountsData) {
       out << "broker:" << x.second.directoryPrefix
           << " account:";
       out.width(8);
