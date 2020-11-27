@@ -26,26 +26,54 @@ std::string getRelativePath(const path& dirPath, const path& startPath) {
   return ans;
 }
 
+bool isNumber(char x) {
+  return ((x >= '0') && (x <= '9'));
+}
+
 bool checkFilename(const std::string& filename) {
   const size_t filenameLength = 29;
   if (filename.length() != filenameLength)
     return false;
   if (filename.find("balance") != 0)
     return false;
+  const size_t balanceLength = 7;
+  const size_t accountLength = 8;
+  const size_t dateLength = 8;
+
+  const size_t accountStart = 0 + balanceLength + 1;
+  const size_t dateStart = accountStart + accountLength + 1;
+
+  for (size_t i = accountStart; i < accountStart + accountStart; ++i)
+    if (!isNumber(filename[i]))
+      return false;
+
+  for (size_t i = dateStart; i < dateStart + dateLength; ++i)
+    if (!isNumber(filename[i]))
+      return false;
+
+  const size_t extensionStart = dateStart + dateLength + 1;
+  const size_t extensionLength = 3;
+  if (filename[extensionStart - 1] != '.')
+    return false;
+
+  std::string extension = filename.substr(extensionStart, extensionLength);
+  if (extension != "txt")
+    return false;
+
   return true;
 }
 
 void separateData(const std::string& name,
                         std::string& account,
                         std::string& date) {
-  auto account_start = name.find_first_of('_') + 1;
-  auto account_length = 8;
+  auto accountStart = name.find_first_of('_') + 1;
+  auto accountLength = 8;
 
-  auto date_start = name.find_last_of('_') + 1;
-  auto date_length = 8;
+  auto dateStart = name.find_last_of('_') + 1;
+  auto dateLength = 8;
 
-  account = name.substr(account_start, account_length);
-  date = name.substr(date_start, date_length);
+  account = name.substr(accountStart, accountLength);
+  date = name.substr(dateStart, dateLength);
 }
 
 uint32_t getNumber(const std::string& str) {
