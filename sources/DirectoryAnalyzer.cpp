@@ -27,7 +27,7 @@ std::string getRelativePath(const path& dirPath, const path& startPath) {
 }
 
 bool checkFilename(const std::string& filename) {
-  const unsigned int filenameLength = 29;
+  const size_t filenameLength = 29;
   if (filename.length() != filenameLength)
     return false;
   if (filename.find("balance") != 0)
@@ -36,12 +36,16 @@ bool checkFilename(const std::string& filename) {
 }
 
 void separateData(const std::string& name,
-                   std::string& account,
-                   std::string& date) {
-  auto it_first = name.find_first_of('_') + 1;
-  auto it_last = name.find_last_of('_') - 1;
-  account = name.substr(it_first, it_last - it_first + 1);
-  date = name.substr(it_last + 2, name.length() - it_last - 6);
+                        std::string& account,
+                        std::string& date) {
+  auto account_start = name.find_first_of('_') + 1;
+  auto account_length = 8;
+
+  auto date_start = name.find_last_of('_') + 1;
+  auto date_length = 8;
+
+  account = name.substr(account_start, account_length);
+  date = name.substr(date_start, date_length);
 }
 
 uint32_t getNumber(const std::string& str) {
